@@ -1,0 +1,93 @@
+:root{
+    --color-dark: rgb(14,14,14);
+    --color-dark2: rgb(32,32,32);
+    --color-dark3: rgb(22,22,22);
+    --color-green: rgb(103,195,80);
+    --color-green2: rgb(51,149,26);
+    --color-red: rgb(184,40,35);
+    --color-red2: rgb(146,22,17);
+
+}
+
+body{
+    margin: 0;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background-color: var(--color-dark);
+}
+h1{
+    font-size: 40px;
+    margin-top: 30px;
+    color: white;
+}
+#container{
+    height:100px;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#caixa{
+    width: 300px;
+    padding: 1rem;
+    border-radius: 20px;
+}
+#button{
+    height: 50px;
+    width: 50px;
+    margin-left: 10px;
+    border-radius: 50%;
+    background-color: var(--color-dark2);
+    color: white;
+    font-size: 1rem;
+    padding: 1rem;
+}
+#lista{
+height: 400px;
+width: 500px;
+margin-top: 20px;
+color: white;
+padding: 0;
+display: flex;
+flex-direction: column;
+}
+
+li{
+    list-style-type:none;
+    margin-top: 1rem;
+    font-size: 1.2rem;
+    text-transform: capitalize;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+li:hover{
+    background-color: var(--color-dark3);
+    transition: 0.4s;
+    border-radius: 1rem;
+    padding-left: 1rem;
+}
+
+#btn{
+    border: none;
+    background-color: var(--color-green);
+    color: white;
+    padding: .4rem .8rem;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: 0.4s;
+}
+
+#btn:hover{
+    background-color: var(--color-green2);
+}
+
