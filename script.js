@@ -1,48 +1,59 @@
-const localStoragekey = 'to-do-list'
-function validateIfexistsclicar(){
-    var values = JSON.parse(localStorage.getItem(localStoragekey) || "[]")
-    var caixaValue = document.getElementById('caixa').value
-    var exits= values.find(x => x.name == caixaValue)
-    return !exits ? false : true
-}
 
 
+const taskInput = document.getElementById('caixa');
+const botao = document.getElementById('button');
+const lista = document.getElementById('lista');
+let tarefas = [];
 
-function clicar(){
-   var caixa = document.getElementById('caixa')
-   if(!caixa.value){
-    alert('Digite algo para inserir em sua lista!')
-   } else if(validateIfexistsclicar()){
-    alert('Já existe uma task com essa descrição')
-   }
-   else{
-     var values = JSON.parse(localStorage.getItem(localStoragekey) || "[]")
-     values.push({
-        name: caixa.value
-     })
-     localStorage.setItem(localStoragekey, JSON.stringify(values))
-     showvalues()
-   }
-   caixa.value = ''
-}
-
-function showvalues(){
-    var values = JSON.parse(localStorage.getItem(localStoragekey) || "[]")
-    var lista = document.getElementById('lista-')
-    lista.innerHTML = ''
-    for(let i = 0; i< values.length; i++){
-        lista.innerHTML += `<li>${values[i]['name']}<button id ='btn' onclick = 'remove("${values[i]['name']}")'><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check2" viewBox="0 0 16 16">
-  <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0"/>
-</svg></button></li>`
+window.onload = () => {
+    const tarefasSalvas = localStorage.getItem('tarefas'); // pega as tarefas salvas 
+    if(tarefasSalvas){
+        tarefas = JSON.parse(tarefasSalvas); // converte o JSON para array e coloca no array tarefas
+        atualizarLista();
     }
 }
 
-function remove(data){
-    var values = JSON.parse(localStorage.getItem(localStoragekey) || "[]")
-    var index = values.findIndex(x => x.name == data)
-    values.splice(index,1)
-    localStorage.setItem(localStoragekey, JSON.stringify(values))
-    showvalues()
+function clicar(){
+    const newTarefas = taskInput.value;
+    if(taskInput.value.length === 0){
+        window.alert('Digite algo na lista!')
+    } else if(tarefas.includes(newTarefas)){
+        window.alert('Essa atividade já esta na lista!')
+        taskInput.value = '';
+    }else{
+        tarefas.push(taskInput.value);
+        atualizarLista();
+        taskInput.value = '';
+        salvarTarefa();
+    }
 }
 
-showvalues()
+function atualizarLista(){
+    lista.innerHTML = '';
+    tarefas.forEach((tarefa, index) =>{ //percorre o array e pega as tarefas
+        const li =document.createElement('li'); // cria o elemento li
+        li.textContent = tarefa; // adiciona as tarefas ao esse element
+
+        const excluir = document.createElement('button');
+        excluir.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed"><path d="M382-240 154-468l57-57 171 171 367-367 57 57-424 424Z"/></svg>'
+        excluir.id = 'btn';
+        excluir.addEventListener('click', () => {
+            tarefas.splice(index, 1); // exclui a tarefa
+            atualizarLista();
+            salvarTarefa();
+        })
+
+        li.appendChild(excluir); //adiciona o botao a tarefa
+        lista.appendChild(li); // aparece as tarefas na tela
+    });
+}
+
+taskInput.addEventListener('keypress', (event) => {
+    if (event.key === 'Enter') {
+        clicar();
+    }
+});
+
+function salvarTarefa(){
+    localStorage.setItem('tarefas' , JSON.stringify(tarefas)); // converte o array para string e salva as tarefas
+}
